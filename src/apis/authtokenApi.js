@@ -1,19 +1,12 @@
-import axios from 'axios';
 import { Cookies } from 'react-cookie';
-
-const postApiAxios = axios.create({
-  baseURL: process.env.REACT_APP_SERVER_URL,
-});
-
-export default postApiAxios;
+import instance from './api';
 
 //SECTION -  authtoken 인증 파트
 const cookies = new Cookies();
-
 export const getAuthAxios = async () => {
   const accessToken = cookies.get('accessToken');
   try {
-    const result = axios.get('http://3.38.191.164/user', {
+    const result = instance.get('/user', {
       headers: {
         Authorization: `Bearer ${accessToken}`,
       },
@@ -21,7 +14,7 @@ export const getAuthAxios = async () => {
     return result;
   } catch (error) {
     if (error.response.status === 401) {
-      alert('token이 만료되었습니다.');
+      alert(error.response.data.message);
     }
   }
 };

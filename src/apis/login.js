@@ -1,14 +1,13 @@
-import postApiAxios from './authtokenApi';
+import instance from './api';
+
 export const login = async (id, password) => {
-  console.log(id, password);
-  const result = await postApiAxios
+  const result = await instance
     .post('/login', {
       id,
       password,
     })
     .catch((error) => {
-      console.log(error.message);
-      // alert()
+      alert(error.response.data.message);
     });
   return result;
 };
